@@ -1,72 +1,111 @@
-## Mock Users
+# API Documentation: Rexcycle ♻️
 
-```
+Este projeto é uma API desenvolvida para o projeto [**Rexcycle**](https://github.com/JackGear0/Rexcycle). Desenvolvida com **Vapor**, um framework Swift para criação de aplicações web e APIs, o foco deste projeto é gerenciar vouchers, usuários (transportadoras e empresas) e interações em uma base de dados SQLite.
 
-username: alice.johnson
-password: securePass123
+---
 
-username: bob.smith
-password: strongPwd456
+## 📋 **Funcionalidades**
 
-username: charlie.brown
-password: safePassword789
+- **Gerenciamento de Vouchers**  
+  Inclui recursos para criar e interagir com vouchers.
+  
+- **Migração e Persistência de Dados**  
+  Gerenciamento de dados utilizando **Fluent** com suporte ao SQLite.
 
-username: david.williams
-password: pass1234word
+- **Manipulação de Arquivos**  
+  Criação de diretórios e suporte para arquivos públicos e documentação.
 
-username: emily.davis
-password: mySecurePwd567
+---
 
-username: frank.miller
-password: password7890
+## 🚀 **Configuração do Ambiente**
 
-username: grace.taylor
-password: safeAndStrongPwd
+### Pré-requisitos  
+- **Swift** 5.7 ou superior  
+- **Vapor** CLI (instalado via `brew install vapor`)  
+- Banco de dados **SQLite**  
 
-username: ivy.martinez
-password: mySecurePassword
+---
 
-username: jack.turner
-password: strongPwd4567
+### **Instalação**
 
-```
+1. Clone este repositório:  
+   ```bash
+   git clone <url-do-repositorio>
+   cd <nome-do-repositorio>
+   ```
 
-# Build & Run Locally
+2. Instale as dependências:  
+   ```bash
+   vapor update
+   ```
 
-## Terminal
+3. Configure o servidor:  
+   A API está configurada para rodar no host `0.0.0.0` e utiliza um banco de dados SQLite chamado `db.sqlite`.
 
-Navigate to the project folder and run the following command:
+4. Crie as migrações e prepare o banco:  
+   ```bash
+   vapor run migrate
+   ```
 
-`swift run`
+5. Execute a API:  
+   ```bash
+   vapor run serve
+   ```
 
-Once running you should see the following message:
+---
 
-`[ NOTICE ] Server starting on http://127.0.0.1:8080`
+## 🛠️ **Estrutura do Projeto**
 
-## Xcode
+- **Middleware**:  
+  O `ReportMiddleware` registra os caminhos das requisições feitas à API.
 
-Open the project in Xcode:
+- **Migrações**:  
+  Contém modelos como `CreateUser`, `CreateVoucher`, e outros para configurar as tabelas no banco SQLite.
 
-`open Package.swift`
+- **Codificação JSON**:  
+  Configurações específicas para codificação de chaves em **snake_case** e datas em formato ISO8601.
 
-Set a custom working directory following [Vapor Xcode Guide](https://docs.vapor.codes/getting-started/xcode/).
+- **Diretórios Públicos**:  
+  - `media`: Armazenamento de arquivos de mídia gerados pela aplicação.  
+  - `documentation`: Documentação estática da API.
 
-Select "My Mac" target and click the play button (⌘ + R) to build and run your project.
+---
 
-Once running you should see the following message in the Xcode console:
+## 🧩 **EndPoints**
 
-`[ NOTICE ] Server starting on http://127.0.0.1:8080`
+### Exemplos:
+- **GET** `/vouchers`  
+  Retorna a lista de vouchers disponíveis.
 
-## Acessing local service from other devices (during development)
+- **POST** `/reports`  
+  Cria um novo relatório.
 
-Inside the `main.swift` file, after the app is instantiated, add
+- **GET** `/users/{id}`  
+  Retorna informações do usuário.
 
-```swift
-app.http.server.configuration.hostname = "0.0.0.0"
-```
+---
 
-This will allow the server to be discoverable by other devices in the same network as your computer (your iPhone, for instance). 
+## 📚 **Tecnologias Utilizadas**
 
-After doing that, on the client side where you do the API call, just change `127.0.0.1` or `localhost` to your computer's IP or hostname in the network.
+- **[Vapor](https://vapor.codes/)**  
+- **[Fluent](https://docs.vapor.codes/fluent/overview/)**  
+- **SQLite**  
 
+---
 
+## 🛡️ **Contribuindo**
+
+1. Faça um fork deste repositório.  
+2. Crie uma nova branch para sua funcionalidade:  
+   ```bash
+   git checkout -b feature/minha-funcionalidade
+   ```
+3. Submeta suas mudanças via PR.
+
+---
+
+## 📄 **Licença**
+
+Este projeto está sob a licença **MIT**. Consulte o arquivo `LICENSE` para mais detalhes.
+
+--- 

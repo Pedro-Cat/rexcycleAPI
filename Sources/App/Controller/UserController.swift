@@ -10,6 +10,7 @@ struct UserController: RouteCollection {
             $0.post(use: create)
             $0.group(Token.authenticator()) {
                 $0.get("me", use: current)
+                $0.patch("credits", use: updateCredits)
 //                $0.put("avatar", use: updateAvatar)
                 $0.delete("avatar", use: deleteAvatar)
                 $0.post("logout", use: logout)
@@ -71,6 +72,24 @@ struct UserController: RouteCollection {
 //        try await user.save(on: req.db)
 //        return user.public
 //    }
+    
+    func updateCredits(req: Request) async throws -> User.Public {
+        // Obtém o usuário autenticado
+        let user = try req.auth.require(User.self)
+        
+        // Decodifica o novo valor de créditos
+        struct CreditUpdate: Content {
+            let credit: Double
+        }
+        
+        let updateData = try req.content.decode(CreditUpdate.self)
+        
+        // Atualiza os créditos do usuário
+        user.credit = updateData.credit
+        try await user.save(on: req.db)
+        
+        return user.public
+    }
     
     func deleteAvatar(req: Request) async throws -> User.Public {
         let user = try req.auth.require(User.self)

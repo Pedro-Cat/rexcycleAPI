@@ -25,7 +25,6 @@ public func configure(_ app: Application) throws {
     
     app.migrations.add(CreateUser())
     app.migrations.add(CreateVoucher())
-//    app.migrations.add(CreatePost())
     app.migrations.add(CreateLikeVoucher())
     app.migrations.add(CreateLikeEnterprise())
     app.migrations.add(CreateReport())

@@ -1,9 +1,9 @@
 import Vapor
 import Fluent
 
-final class Like: Model {
+final class LikeVoucher: Model {
     
-    static let schema = "likes"
+    static let schema = "likes_vouchers"
     
     @ID(key: .id)
     var id: UUID?
@@ -11,28 +11,23 @@ final class Like: Model {
     @Parent(key: "user_id")
     var user: User
     
-    @Parent(key: "post_id")
-    var post: Post
+    @Parent(key: "voucher_id")
+    var voucher: Voucher
     
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
 
-    @Field(key: "reaction")
-    var reaction: String?
-
     init() { }
     
-    init(userID: User.IDValue, postID: Post.IDValue, reaction: String?) {
+    init(userID: User.IDValue, voucherID: Voucher.IDValue) {
         self.$user.id = userID
-        self.$post.id = postID
-        self.reaction = reaction
+        self.$voucher.id = voucherID
     }
 
     var `public`: Public {
         Public(
             id: id!,
-            reaction: reaction,
-            postID: $post.id,
+            voucherID: $voucher.id,
             userID: $user.id,
             user: $user.value?.public
         )
@@ -40,24 +35,23 @@ final class Like: Model {
 
 }
 
-extension Like: Content { }
+extension LikeVoucher: Content { }
 
-extension Like {
+extension LikeVoucher {
     
     struct Input: Content {
         
-        let postID: Post.IDValue
+        let voucherID: Voucher.IDValue
         
         enum CodingKeys: String, CodingKey {
-            case postID = "post_id"
+            case voucherID = "voucher_id"
         }
 
     }
 
     struct Public: Content {
         var id: UUID
-        var reaction: String?
-        var postID: UUID
+        var voucherID: UUID
         var userID: UUID
         var user: User.Public?
         var createdAt: Date?

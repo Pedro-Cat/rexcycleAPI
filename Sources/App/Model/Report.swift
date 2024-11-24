@@ -15,14 +15,14 @@ final class Report: Model {
     var user: User
     
     @Parent(key: "post_id")
-    var post: Post
+    var post: Voucher
     
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
     
     init() {}
     
-    init(reason: String, userID: User.IDValue, postID: Post.IDValue) {
+    init(reason: String, userID: User.IDValue, postID: Voucher.IDValue) {
         self.reason = reason
         self.$user.id = userID
         self.$post.id = postID

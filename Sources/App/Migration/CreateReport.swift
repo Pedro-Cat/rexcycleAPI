@@ -11,7 +11,7 @@ struct CreateReport: AsyncMigration {
             .field("post_id", .uuid)
             .field("created_at", .datetime)
             .foreignKey("user_id", references: User.schema, "id", onDelete: .cascade, onUpdate: .cascade)
-            .foreignKey("post_id", references: Post.schema, "id", onDelete: .cascade, onUpdate: .cascade)
+            .foreignKey("post_id", references: Voucher.schema, "id", onDelete: .cascade, onUpdate: .cascade)
             .create()
     }
     

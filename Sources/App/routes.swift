@@ -21,9 +21,11 @@ func routes(_ app: Application) throws {
 //    }
     
     try app.register(collection: UserController())
-    try app.register(collection: PostController()) 
-    try app.register(collection: LikeController())
+    try app.register(collection: VoucherController())
+//    try app.register(collection: PostController())
+    try app.register(collection: LikeVoucherController())
+    try app.register(collection: LikeEnterpriseController())
     try app.register(collection: ReportController())
-    try app.register(collection: ChatController())
+//    try app.register(collection: ChatController())
     
 }

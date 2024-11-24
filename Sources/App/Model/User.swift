@@ -20,16 +20,27 @@ final class User: Model {
     @Field(key: "password")
     var password: String
     
+    @Field(key: "credit")
+    var credit: Double
+    
+    @Field(key: "isEnterprise")
+    var isEnterprise: Bool
+    
     @Children(for: \.$user)
-    var posts: [Post]
+    var myVouchers: [Voucher]
+    
+    @Siblings(through: UserVoucher.self, from: \.$user, to: \.$voucher)
+    var vouchers: [Voucher]
     
     init() { }
     
-    init(username: String, name: String, avatar: String?, password: String) {
+    init(username: String, name: String, avatar: String?, password: String, isEnterprise: Bool = false) {
         self.username = username
         self.name = name
         self.avatar = avatar
         self.password = password
+        self.credit = 0
+        self.isEnterprise = isEnterprise
     }
     
 }
@@ -42,6 +53,8 @@ extension User {
         var username: String
         var name: String
         var password: String
+        var avatar: String?
+        var isEnterprise: Bool
     }
     
     struct Public: Content {
@@ -49,14 +62,16 @@ extension User {
         var username: String
         var name: String
         var avatar: String?
+        var credit: Double
+        var isEnterprise: Bool
     }
     
     convenience init(_ input: Input) throws {
-        self.init(username: input.username, name: input.name, avatar: nil, password: try Bcrypt.hash(input.password))
+        self.init(username: input.username, name: input.name, avatar: input.avatar, password: try Bcrypt.hash(input.password), isEnterprise: input.isEnterprise)
     }
     
     var `public`: Public {
-        Public(id: self.id, username: self.username, name: self.name, avatar: self.avatar)
+        Public(id: self.id, username: self.username, name: self.name, avatar: self.avatar, credit: self.credit, isEnterprise: self.isEnterprise)
     }
     
 }

@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "adaspace",
+    name: "rexcycleAPI",
     platforms: [
        .macOS(.v12)
     ],

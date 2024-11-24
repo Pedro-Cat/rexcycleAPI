@@ -10,7 +10,7 @@ struct UserController: RouteCollection {
             $0.post(use: create)
             $0.group(Token.authenticator()) {
                 $0.get("me", use: current)
-                $0.put("avatar", use: updateAvatar)
+//                $0.put("avatar", use: updateAvatar)
                 $0.delete("avatar", use: deleteAvatar)
                 $0.post("logout", use: logout)
             }
@@ -58,19 +58,19 @@ struct UserController: RouteCollection {
         return user.public
     }
     
-    func updateAvatar(req: Request) async throws -> User.Public {
-        guard [.png, .jpeg].contains(req.headers.contentType) else {
-            throw Abort(.unsupportedMediaType)
-        }
-        let user = try req.auth.require(User.self)
-        guard let data = req.body.data else {
-            throw Abort(.badRequest)
-        }
-        let avatar = try data.write(to: URL(fileURLWithPath: DirectoryConfiguration.detect().publicDirectory), contentType: req.headers.contentType)
-        user.avatar = avatar
-        try await user.save(on: req.db)
-        return user.public
-    }
+//    func updateAvatar(req: Request) async throws -> User.Public {
+//        guard [.png, .jpeg].contains(req.headers.contentType) else {
+//            throw Abort(.unsupportedMediaType)
+//        }
+//        let user = try req.auth.require(User.self)
+//        guard let data = req.body.data else {
+//            throw Abort(.badRequest)
+//        }
+//        let avatar = try data.write(to: URL(fileURLWithPath: DirectoryConfiguration.detect().publicDirectory), contentType: req.headers.contentType)
+//        user.avatar = avatar
+//        try await user.save(on: req.db)
+//        return user.public
+//    }
     
     func deleteAvatar(req: Request) async throws -> User.Public {
         let user = try req.auth.require(User.self)

@@ -14,12 +14,12 @@ struct ReportController: RouteCollection {
     
     func create(req: Request) async throws -> Response {
         let user = try req.auth.require(User.self)
-        let id = try req.parameters.require("post_id", as: Post.IDValue.self)
+        let id = try req.parameters.require("post_id", as: Voucher.IDValue.self)
         if let _ = try await Report.query(on: req.db).filter(\.$post.$id == id).filter(\.$user.$id == user.requireID()).first() {
             return Response(status: .conflict)
         } else {
             let reason = try req.content.decode(String.self)
-            if try await Post.find(id, on: req.db) != nil {
+            if try await Voucher.find(id, on: req.db) != nil {
                 let report = try Report(reason: reason, userID: user.requireID(), postID: id)
                 try await report.create(on: req.db)
                 return Response(status: .created)
@@ -30,7 +30,7 @@ struct ReportController: RouteCollection {
     }
     
     func all(req: Request) async throws -> [String] {
-        let id = try req.parameters.require("post_id", as: Post.IDValue.self)
+        let id = try req.parameters.require("post_id", as: Voucher.IDValue.self)
         return try await Report.query(on: req.db).filter(\.$post.$id == id).all().map(\.reason)
     }
     

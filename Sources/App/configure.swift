@@ -13,7 +13,7 @@ final class ReportMiddleware: Middleware {
 
 public func configure(_ app: Application) throws {
     
-//    app.http.server.configuration.hostname = "0.0.0.0"
+    app.http.server.configuration.hostname = "0.0.0.0"
     
     app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
     
@@ -21,11 +21,13 @@ public func configure(_ app: Application) throws {
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory + "documentation"))
     
-    app.routes.defaultMaxBodySize = "5mb"
+    app.routes.defaultMaxBodySize = "50mb"
     
     app.migrations.add(CreateUser())
-    app.migrations.add(CreatePost())
-    app.migrations.add(UpdateLike())
+    app.migrations.add(CreateVoucher())
+//    app.migrations.add(CreatePost())
+    app.migrations.add(CreateLikeVoucher())
+    app.migrations.add(CreateLikeEnterprise())
     app.migrations.add(CreateReport())
     app.migrations.add(CreateToken())
     
